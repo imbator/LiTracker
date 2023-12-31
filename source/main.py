@@ -1,16 +1,20 @@
-# This is a sample Python script.
+import berserk
+from config import API_TOKEN, player, BOT_TOKEN
+from games_import import download_last_game
+from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
+from telegram import Update
+from database import init_database
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+session = berserk.TokenSession(API_TOKEN)
+client = berserk.Client(session)
+async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.message.reply_text(f'Hello, {update.effective_user.first_name}!')
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    download_last_game(player, client)
+    init_database()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    app = ApplicationBuilder().token(BOT_TOKEN ).build()
+    app.add_handler(MessageHandler(filters.TEXT, hello))
+    app.run_polling()
+
