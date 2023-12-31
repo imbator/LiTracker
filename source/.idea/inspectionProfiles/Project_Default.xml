@@ -1,0 +1,76 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPep8Inspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyPep8NamingInspection" enabled="false" level="WEAK WARNING" enabled_by_default="false" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="TextBrowser" />
+          <option value="KPA" />
+          <option value="PAETest.*" />
+          <option value="WAETest.*" />
+          <option value="CMDTest.*" />
+          <option value="list.__setitem__" />
+          <option value="test_example.*" />
+          <option value="log" />
+          <option value="helper.TransactionMode" />
+          <option value="pae_test.PinMode" />
+          <option value="wae_test.PinMode" />
+          <option value="wae_test.ChannelMode" />
+          <option value="wae_test.TransactionMode" />
+          <option value="wae_test.Osc" />
+          <option value="oscilloscope_tester.triggerType" />
+          <option value="oscilloscope_tester.runMode" />
+          <option value="oscilloscope_tester.Hz" />
+          <option value="oscilloscope_tester.Osc" />
+          <option value="helper.PinMode" />
+          <option value="helper.ChannelMode" />
+          <option value="wae_test.Hz" />
+          <option value="wae_test.triggerType" />
+          <option value="wae_test.runMode" />
+          <option value="wae_test.meanD" />
+          <option value="cmd_test.triggerType" />
+          <option value="cmd_test.Hz" />
+          <option value="cmd_test.runMode" />
+          <option value="cmd_test.Osc" />
+          <option value="cmd_test.*" />
+          <option value="helper.SignalImitator" />
+          <option value="il_test.Osc" />
+          <option value="il_test.triggerType" />
+          <option value="il_test.runMode" />
+          <option value="il_test.Hz" />
+          <option value="ro_test.Osc" />
+          <option value="ro_test.triggerType" />
+          <option value="str_test.Osc" />
+          <option value="str_test.triggerType" />
+          <option value="str_test.Hz" />
+          <option value="skp_test.PinMode" />
+          <option value="srab_test.PinMode" />
+          <option value="srab_test.Osc" />
+          <option value="srab_test.triggerType" />
+          <option value="srab_test.Hz" />
+          <option value="t12_test.triggerType" />
+          <option value="t12_test.Osc" />
+          <option value="t12_test.Hz" />
+          <option value="cmd_rem_test.PinMode" />
+          <option value="cmd_rem_test.Osc" />
+          <option value="cmd_rem_test.triggerType" />
+          <option value="cmd_rem_test.Hz" />
+          <option value="m_time_test.triggerType" />
+          <option value="m_time_test.Osc" />
+          <option value="m_time_test.Hz" />
+          <option value="shd_test.PinMode" />
+          <option value="shd_test.Osc" />
+          <option value="shd_test.triggerType" />
+          <option value="shd_test.Hz" />
+        </list>
+      </option>
+    </inspection_tool>
+    <inspection_tool class="SpellCheckingInspection" enabled="false" level="TYPO" enabled_by_default="false">
+      <option name="processCode" value="true" />
+      <option name="processLiterals" value="true" />
+      <option name="processComments" value="true" />
+    </inspection_tool>
+  </profile>
+</component>
