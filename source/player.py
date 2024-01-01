@@ -13,18 +13,21 @@ async def register_player(player_name: str):
     pass
 
 # Определяем состояния разговора
-INPUT_TEXT = 0
+REGISTER, END_REGISTER = range(2)
 
 async def start_register(update: Update, context: CallbackContext) -> int:
     # Пользователю отправляется приглашение к вводу
     await update.message.reply_text('Please, enter your lichess account nickname: ')
     # Переходим в состояние INPUT_TEXT
-    return INPUT_TEXT
+    return REGISTER
 
 async def input_text(update: Update, context: CallbackContext) -> int:
     # Чтение текста, введенного пользователем
-    user_text = update.message.text
-    await update.message.reply_text(f'You entered: {user_text}')
+    # user_text = update.message.text
+    await update.message.reply_text(f'smth')
+    return END_REGISTER
+
+async def end_registration(update: Update, context: CallbackContext):
     return ConversationHandler.END
 
 async def cancel(update: Update, context: CallbackContext) -> int:
@@ -40,7 +43,8 @@ start_handler = CommandHandler('register', start_register)
 conversation_handler = ConversationHandler(
     entry_points=[start_handler],
     states={
-        INPUT_TEXT: [MessageHandler(filters.TEXT & ~filters.COMMAND, input_text)],
+        REGISTER: [MessageHandler(filters.TEXT & ~filters.COMMAND, input_text)],
+        END_REGISTER: [MessageHandler(filters.TEXT & ~filters.COMMAND, end_registration)],
     },
     fallbacks=[CommandHandler('cancel', cancel)]
 )
