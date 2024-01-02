@@ -8,43 +8,44 @@ from telegram.ext import (
     CallbackContext
 )
 
-async def register_player(player_name: str):
-    """Регистрирует текущего игрока в системе."""
-    pass
+from database import LiTrackerDatabase
+
+databaseUnit = LiTrackerDatabase()
+
 
 # Определяем состояния разговора
-REGISTER, END_REGISTER = range(2)
+REGISTER = 0
 
 async def start_register(update: Update, context: CallbackContext) -> int:
     # Пользователю отправляется приглашение к вводу
     await update.message.reply_text('Please, enter your lichess account nickname: ')
-    # Переходим в состояние INPUT_TEXT
     return REGISTER
 
-async def input_text(update: Update, context: CallbackContext) -> int:
-    # Чтение текста, введенного пользователем
-    # user_text = update.message.text
-    await update.message.reply_text(f'smth')
-    return END_REGISTER
+async def end_registration(update: Update, context: CallbackContext) -> int:
+    username = update.message.text
+    user_id = update.effective_user.id
 
-async def end_registration(update: Update, context: CallbackContext):
+    # Запоминаем никнейм в базе данных пользователей:
+    databaseUnit.add_player(username, user_id)
+
+
+    await update.message.reply_text(f'Вы успешно зарегистрированы!')
     return ConversationHandler.END
 
 async def cancel(update: Update, context: CallbackContext) -> int:
     # Пользователь отменил ввод
-    await update.message.reply_text('Операция отменена.')
+    await update.message.reply_text('Регистрация отменена.')
     # Завершаем разговор
     return ConversationHandler.END
 
 # Определение точки входа в разговор
-start_handler = CommandHandler('register', start_register)
+registration_start_handler = CommandHandler('register', start_register)
 
 # Определение обработчика для каждого состояния разговора
-conversation_handler = ConversationHandler(
-    entry_points=[start_handler],
+registration_handler = ConversationHandler(
+    entry_points=[registration_start_handler],
     states={
-        REGISTER: [MessageHandler(filters.TEXT & ~filters.COMMAND, input_text)],
-        END_REGISTER: [MessageHandler(filters.TEXT & ~filters.COMMAND, end_registration)],
+        REGISTER: [MessageHandler(filters.TEXT & ~filters.COMMAND, end_registration)],
     },
     fallbacks=[CommandHandler('cancel', cancel)]
 )
