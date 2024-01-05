@@ -19,7 +19,7 @@ class Bot:
         self.games_tracker = GamesTracker(client)
         self.setup_handlers()
         self.database_unit = LiTrackerDatabase()
-        self.database_unit.init_database()
+        # self.database_unit.init_database()
     @staticmethod
     async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Сообщение выводится при инициализации диалога с новым пользователем или с незалогиненным."""
