@@ -2,11 +2,12 @@ from berserk import Client
 from telegram.ext import  CallbackContext
 from config import player
 from database import LiTrackerDatabase
+import chess
 
 class GamesTracker:
     def __init__(self, client):
         self.client = client
-        self.download_last_game(player)
+        self.download_last_game(player) # Проверяем работоспособность
         self.db = LiTrackerDatabase()
 
     def get_last_game_id(self, player_name):
@@ -21,6 +22,7 @@ class GamesTracker:
         print(data['players']['white']['user']['name'])
         print(data['players']['black'])
         print(data['opening']['name'])
+        print(data['moves'])
 
     async def check_new_game(self, context: CallbackContext):
         """Проверяет наличие новой игры на сервере lichess."""
@@ -72,14 +74,53 @@ class GamesTracker:
         context.job_queue.stop()
         update.message.reply_text("Отслеживание игр остановлено.")
 
-
     def load_game_to_database(self):
         """Инициирование загрузки новой игры в базу данных"""
 
-
     #TODO
     def load_chess_base(self) -> None:
-        """Download a new chessbase into the system."""
+        """Добавление PGN базы к боту."""
+        # Смотри database.py
         pass
+
+    @staticmethod
+    def parse_pgn_base(pgn_path):
+        """Добавление новой базы pgn партий в базу данных."""
+        with open(pgn_path) as pgn_file:
+            games_data = []
+            game_number = 1
+            while True:
+                try:
+                    game = chess.pgn.read_game(pgn_file)
+                    if game is None:
+                        break  # Закончились игры в файле
+
+                # Получаем ходы партии в строковом формате
+                    moves = []
+                    board = game.board()
+
+                    for move in game.mainline_moves():
+                # Проверяем, является ли ход легальным
+                        if move in board.legal_moves:
+                            moves.append(board.san(move))
+                            board.push(move)
+                        else:
+                    # Если ход нелегален, выбрасываем исключение
+                            print(f"Warning: Illegal move: {move.uci()} in position {board.fen()}")
+
+                    game_info = {
+                        'chapter_name': game.headers.get('White', "Unknown Title"),
+                        'chapter_number': game_number,
+                        'moves': ' '.join(moves)
+                    }
+
+                    games_data.append(game_info)
+                except Exception as e:
+                    print("An exception occurred")
+
+
+                game_number += 1
+
+            return games_data
 
 
